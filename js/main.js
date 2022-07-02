@@ -1,5 +1,6 @@
 import "../css/style.css";
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 // init
 
@@ -16,7 +17,7 @@ const sizes = { width: window.innerWidth, height: window.innerHeight };
 let { width, height } = sizes;
 const aspectRatio = width / height;
 
-const camera = new THREE.PerspectiveCamera(25, aspectRatio, 1, 1000);
+const camera = new THREE.PerspectiveCamera(45, aspectRatio, 1, 1000);
 camera.position.z = 5;
 
 const canvas = document.querySelector(".webgl");
@@ -34,11 +35,14 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 3));
 });
 
+// controls
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+
 // animation
 
 function animation(time) {
-  mesh.rotation.x = time / 2000;
-  mesh.rotation.y = time / 1000;
+  controls.update();
 
   renderer.render(scene, camera);
 }
